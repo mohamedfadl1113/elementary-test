@@ -295,7 +295,7 @@ class DataMonitoringReport(DataMonitoring):
                 channel_name=self.config.slack_channel_name,
                 message=SlackReportSummaryMessageBuilder().get_slack_message(
                     test_results=summary_test_results,
-                    project_name=self.config.project_name,
+                    project_name=self.config.google_project_name,
                     bucket_website_url=bucket_website_url,
                     include_description=include_description,
                     filter=self.selector_filter.to_selector_filter_schema(),
