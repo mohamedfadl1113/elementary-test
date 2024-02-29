@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 
 from elementary.clients.slack.schema import SlackMessageSchema
 from elementary.clients.slack.slack_message_builder import SlackMessageBuilder
-from elementary.monitor.api.tests.schema import TestResultSummarySchema
+from elementary.monitor.api.tests.schema import TestResultSummarySchema, TestMetadataSchema
 from elementary.monitor.data_monitoring.schema import SelectorFilterSchema
 
 TAG_PREFIX = "#"
@@ -15,12 +15,13 @@ class SlackReportSummaryMessageBuilder(SlackMessageBuilder):
     def get_slack_message(
         self,
         test_results: List[TestResultSummarySchema],
+        metadata: List[TestMetadataSchema],
         days_back: int,
         bucket_website_url: Optional[str] = None,
         filter: SelectorFilterSchema = SelectorFilterSchema(),
         include_description: bool = False,
     ) -> SlackMessageSchema:
-        self.add_title_to_slack_alert()
+        self.add_title_to_slack_alert(metadata= metadata)
         self.add_preview_to_slack_alert(
             test_results,
             days_back=days_back,
@@ -34,9 +35,10 @@ class SlackReportSummaryMessageBuilder(SlackMessageBuilder):
         )
         return super().get_slack_message()
 
-    def add_title_to_slack_alert(self):
+    def add_title_to_slack_alert(self, metadata: List[TestMetadataSchema]):
+        database_name = self._get_database_name(metadata)
         title_blocks = [
-            self.create_header_block(":mag: Monitoring summary"),
+            self.create_header_block(":mag: Monitoring summary of Project: " + database_name),
             self.create_divider_block(),
         ]
         self._add_always_displayed_blocks(title_blocks)
@@ -205,3 +207,6 @@ class SlackReportSummaryMessageBuilder(SlackMessageBuilder):
             elif test.status == "skipped":
                 totals["skipped"] += 1
         return totals
+    @staticmethod
+    def _get_database_name(metadata: List[TestMetadataSchema]) -> str:
+        return metadata[0].database_name if metadata else None
