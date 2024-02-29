@@ -21,7 +21,7 @@ class SlackReportSummaryMessageBuilder(SlackMessageBuilder):
         filter: SelectorFilterSchema = SelectorFilterSchema(),
         include_description: bool = False,
     ) -> SlackMessageSchema:
-        self.add_title_to_slack_alert(project_name= project_name)
+        self.add_title_to_slack_alert(project_name = project_name)
         self.add_preview_to_slack_alert(
             test_results,
             days_back=days_back,
