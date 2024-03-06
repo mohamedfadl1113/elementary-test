@@ -17,6 +17,7 @@ class Config:
     _GOOGLE = "google"
     _AZURE = "azure"
     _TEAMS = "teams"
+    _NOTIFICATIONS = "notfications"
     _CONFIG_FILE_NAME = "config.yml"
 
     # Quoting env vars
@@ -49,6 +50,7 @@ class Config:
         slack_token: Optional[str] = None,
         slack_channel_name: Optional[str] = None,
         slack_group_alerts_by: Optional[str] = None,
+        notification_title: Optional[str] = None,
         timezone: Optional[str] = None,
         aws_profile_name: Optional[str] = None,
         aws_region_name: Optional[str] = None,
@@ -122,6 +124,13 @@ class Config:
             slack_group_alerts_by,
             slack_config.get("group_alerts_by"),
             GroupingType.BY_ALERT.value,
+        )
+
+        notification_config = config.get(self._NOTIFICATIONS, {})
+
+        self.notification_title = self._first_not_none(
+            notification_title,
+            notification_config.get("notification_title"),
         )
 
         teams_config = config.get(self._TEAMS, {})
