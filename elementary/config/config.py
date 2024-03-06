@@ -17,7 +17,7 @@ class Config:
     _GOOGLE = "google"
     _AZURE = "azure"
     _TEAMS = "teams"
-    _NOTIFICATIONS = "notfications"
+    _NOTIFICATIONS = "notifications"
     _CONFIG_FILE_NAME = "config.yml"
 
     # Quoting env vars
