@@ -58,6 +58,7 @@ class Config:
         s3_endpoint_url: Optional[str] = None,
         s3_bucket_name: Optional[str] = None,
         google_project_name: Optional[str] = None,
+        google_monitoring_title: Optional[str] = None,
         google_service_account_path: Optional[str] = None,
         gcs_bucket_name: Optional[str] = None,
         gcs_timeout_limit: Optional[int] = None,
@@ -152,6 +153,10 @@ class Config:
         self.google_project_name = self._first_not_none(
             google_project_name,
             google_config.get("project_name"),
+        )
+        self.google_monitoring_title = self._first_not_none(
+            google_monitoring_title,
+            google_config.get("monitoring_title"),
         )
         self.google_service_account_path = self._first_not_none(
             google_service_account_path,
