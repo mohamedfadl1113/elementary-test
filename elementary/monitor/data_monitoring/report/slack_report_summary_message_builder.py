@@ -37,9 +37,10 @@ class SlackReportSummaryMessageBuilder(SlackMessageBuilder):
         return super().get_slack_message()
 
     def add_title_to_slack_alert(self, notification_title: str, google_monitoring_title: str):
-        notification_header = "Monitoring summary" if notification_title == None and google_monitoring_title == None else "Monitoring summary of Project: " + next((el for el in [notification_title, google_monitoring_title] if el is not None), "No Title supplied")
+        #notification_header = "Monitoring summary" if notification_title == None and google_monitoring_title == None else "Monitoring summary of Project: " + next((el for el in [notification_title, google_monitoring_title] if el is not None), "No Title supplied")
+        notification_header = "Monitoring summary" if notification_title == None else "Monitoring summary of Project: " + notification_title
         title_blocks = [
-            self.create_header_block(f":mag: {notification_header}: "),
+            self.create_header_block(f":mag: {notification_header} "),
             self.create_divider_block(),
         ]
         self._add_always_displayed_blocks(title_blocks)
